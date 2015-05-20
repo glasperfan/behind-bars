@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+
+	<!-- Libraries -->
+	<script src="http://d3js.org/d3.v3.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<script src="libs/datamaps/datamaps.usa.min.js" charset="utf-8"></script>
+	<script src="http://d3js.org/queue.v1.min.js"></script>
+	<script src="js/timevis.js"></script>
+	<script src="js/mapvis.js"></script>
+	<script src="js/breakdown_mapvis.js"></script>
+	<script src="js/offensevis.js"></script>
+	<script src="js/executionvis.js"></script>
+	<script src="js/executionmapvis.js"></script>
+	<script src="js/internationalvis.js"></script>
+	<script src="js/sexual_harassmentvis.js"></script>
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+	<title>Behind Bars: A Visual Story</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar">
+	<div class="navbar-header">
+      	<a href="#home">CS171</a>
+    </div>
+	<div class="container">
+   		<ul class="nav navbar-nav">
+   			<li><a href="#intro">Introduction</a></li>
+   			<li><a href="#breakdown">What's the Breakdown</a></li>
+   			<li><a href="#executions">Executions</a></li>
+   			<li><a href="#offenses">Offenses</a></li>
+   			<li><a href="#harassments">Sexual Harassment</a></li>
+   			<li><a href="#international">US and the World</a></li>
+   			<li><a href="#credits">Credits and Screencast</a></li>
+   		</ul>
+  	</div>
+</nav>
+
+<div class="screen" id="home">
+	<div class="box title-box">
+		<div class="box-container">
+			<h1>Behind Bars:</h1>
+			<h1>A Visual Story</h1>
+			<h3>By Hugh Zabriskie and Cynthia Meng</h3>
+		</div>
+	</div>
+	<div class="box time-box">
+		<h2>In 2011, over <a href="http://bjs.gov/content/pub/pdf/cpus11.pdf">6.98 million</a> Americans were under correctional supervision.</h2>
+		<p>That means 2.9% of the American adult population was on probation, on parole, in jail, or in prison. Of that 6.98 million, about one-quarter are actually serving time in jail or prison. That's about 1 in 34 American-residing adults behind bars. Trends have shown that the number of imprisoned Americans has dramatically increased over the last 80 years.</p>
+		<div id="timeVis"></div>
+	</div>
+</div>
+
+<div class="screen" id="intro">
+	<div class="overlay"></div>
+	<div class="description">
+		<h2>The United States has more of its own population in prison than any other country in the world, period.</h2>
+		<p>We're not talking just percentage of its own population -- the United States also has the most number of people in prison in general. And prison is no cheap system to uphold: in 2010 alone, state prisons spent <a href="http://www.vera.org/pubs/special/price-prisons-what-incarceration-costs-taxpayers">well over $39 million</a> on prison upkeep. So why, exactly, are so many people going to jail? And, equally as important, who exactly is going to jail?</p>
+		<p>We are attempting to shed light on some of the trends in incarceration in the United States, as well as some of the injustices that take place behind closed doors, away from the public eye. The U.S. is in a particularly unique situation because in addition to having federal prisons, its fifty sovereign states have their own incarceration systems, death penalty verdicts, and laws. In comparing states with each other, we can better see a distribution of incarceration trends across the country.</p>
+	</div>
+</div>
+
+<div class="screen" id="breakdown">
+	<div class="left">
+		<div id="mapVis" class='map'></div>
+	</div>
+	<div class="right">
+		<div class="box map-box">
+			<h2>What's the Trend</h2>
+			<h4>Use the map below to examine the prison populations in the United States. Select a state to see the breakdown by ethnicity or by gender (per 100,000 citizens).</h4>
+			<div class="cool-btns">
+				<input type="button" name="breakdown" data-b="race" value="Ethnicity" class="active">
+				<input type="button" name="breakdown" data-b="gender" value="Gender">
+			</div>
+			<h4 id="state">State: <span class="highlighted"></span></h4>
+			<div class="wrapper">
+				<div class="breakdown left">
+					<table>
+						<tr id="b-pop">
+							<td>Population: </td>
+							<td><span class="value"></span></td>
+						</tr>
+						<tr id="b-total">
+							<td>Total prisoners: </td>
+							<td><span class="value"></span></td>
+						</tr>
+					</table>
+				</div>
+				<div class="breakdown right">
+					<table>
+						<tr id="b-white">
+							<td>Caucasian: </td>
+							<td><span class="value"></span></td>
+						</tr>
+						<tr id="b-hispanic">
+							<td>Hispanic/Latino: </td>
+							<td><span class="value"></span></td>
+						</tr>
+						<tr id="b-black">
+							<td>African-American: </td>
+							<td><span class="value"></span></td>
+						</tr>
+						<tr id="b-ai">
+							<td>American Indian: </td>
+							<td><span class="value"></span></td>
+						</tr>
+						<tr id="b-male">
+							<td>Total (Male): </td>
+							<td><span class="value"></span></td>
+						</tr>
+						<tr id="b-female">
+							<td>Total (Female): </td>
+							<td><span class="value"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div id="breakdownVis"></div>
+		</div>
+	</div>
+</div>
+
+<div class="screen" id="executions">
+	<div class="container">
+		<div class="left">
+			<div class="box exec-description">
+				<h2>On death row</h2>
+				<h4>Over time, certain states have increased the number of executions they dole out.</h4>
+				<p>Slide the slider above the map to see this change over time. The graph below displays total state executions and total federal executions over time.</p>
+			</div>
+			<div class="box exec-line">
+				<div id="executionVis"></div>
+			</div>
+		</div>
+		<div class="right">
+			<div class="box exec-vis">
+				<div id="executionMapVis" class="map">
+					<input id="slider" type="range" min="1977" max="2014" step="1" value="1977">
+					<div id="header">1977</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="screen" id="offenses">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="box offenses-box centered">
+			<h2>Why are people in jail?</h2>
+			<h4>The distributions of types of offenses are not the same for everybody.</h4>
+			<div class="row">
+				<div class="col-md-4">
+					<h5>Violent Crimes include:</h5>
+					<ul>
+						<li>Murder</li>
+						<li>Manslaughter</li>
+						<li>Rape/sexual assault</li>
+						<li>Robbery</li>
+						<li>Aggravated or simple assault</li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<h5>Property Crimes include:</h5>
+					<ul>
+						<li>Burglary</li>
+						<li>Larceny-theft</li>
+						<li>Motor vehicle theft</li>
+						<li>Fraud</li>
+						<li>Other property</li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<h5>Drug Crimes include:</h5>
+					<ul>
+						<li>Drug possession</li>
+						<li>Other drug</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="offensesContainer">
+			<div id="offenseVisGender"></div>
+			<div id="offenseVisRace"></div>
+		</div>
+	</div>
+</div>
+
+
+<div class="screen" id="harassments">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="box centered sexual-harassment-box">
+			<h2>Sexual Harassment in Prison</h2>
+			<h4>It's no secret that sexual harassment is a huge problem worldwide. Even in jail, sexual misconduct by both inmates and staff is more common than you think.</h4>
+			<p>Because more prisoners stay in single-sex jails, non-heterosexual harassment occurs more often in jails across the nation. Not to be ignored is the significant amount of assault that comes from prison staff itself, and the mental health issues that stem from these types of assaults. And more often than not, prison officials face little to no punishment for committing acts of sexual violence against inmates.</p>
+			<p>Toggle between the various buttons below to see the percentages of <b>reported</b> instances of sexual assault in prisons, keeping in mind that, like many cases of sexual assault elsewhere, many instances do not get reported at all.</p>
+			<p class="small">N.B. "Mental Health" refers to the mental health state of the victim in question, not necessarily as a a result of the act of sexual harassment.</p>
+		</div>
+		<div id="sexualHarassmentVis" class="centered">
+			<div class="cool-btns type">
+				<input type="button" name="type" data-b="Inmate-on-inmate" value="Inmate-on-inmate" class="active">
+				<input type="button" name="type" data-b="Staff sexual misconduct" value="Staff sexual misconduct">
+			</div>
+			<br>
+			<div class="cool-btns category">
+				<input type="button" name="category" data-b="Sex" value="Sex" class="active">
+				<input type="button" name="category" data-b="Race" value="Race">
+				<input type="button" name="category" data-b="Age" value="Age">
+				<input type="button" name="category" data-b="Education" value="Education">
+				<input type="button" name="category" data-b="Mental Health Status" value="Mental Health Status">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="screen" id="international">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="left">
+			<div class="box">
+				<h2>US and the World</h2>
+				<h4>At 716 per 100,000 citizens, the United States has the highest incarceration rate of any country in the world.</h4>
+				<p>And as the graph on the right demonstrates, the rest of the world ranks far below us. Even China has fewer of its own people behind bars, despite having a population roughly four times larger.</p>
+				<p>Also worth noting:</p>
+				<ul>
+					<li>2013 marked the <a href="http://www.unodc.org/documents/data-and-analysis/statistics/Homicide/Globa_study_on_homicide_2011_web.pdf">first</a> year in Iceland's entire history that armed police killed someone.</li>
+					<li>Russia has a lower crime rate than the US, but a much <a href"http://www.npr.org/blogs/parallels/2013/09/19/224043848/the-u-s-has-more-guns-but-russia-has-more-murders">higher murder rate</a>. In 2009, the US recorded 13,636 homicides while Russia has 21,603 homicides. However, American citizens collectively possess 10 times as many guns as Russians.</li>
+					<li>San Marino, a country with a population of 30,000, has <a href="http://www.nytimes.com/2008/04/23/us/23prison.html">1 prisoner</a>.</li>
+					<li>The average public jail <a href="http://www.theguardian.com/society/2014/apr/29/prisons-ordered-cust-costs-149-million-a-year">in the UK</a> spends approximately $33382 per prisoner per year, which is relatively <a href="http://www.cbsnews.com/news/the-cost-of-a-nation-of-incarceration/">close to the US</a> at $31,307 per year.
+			</div>
+		</div>
+		<div class="right">
+			<div class="box" style="text-align: center;">
+				<h2>The Top 20: Prisoners per 100,000 Citizens</h2>
+				<div id="internationalVis"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="screen" id="credits">
+		<div class="box centered" id="credits-box">
+			<h2>Credits</h2>
+			<div class="row">
+			  	<div class="col-md-4">
+			  		<h4>Special Thanks</h4>
+			  		This project was entirely created by <a href="http://hughzabriskie.com/">Hugh Zabriskie</a> and <a href="http://cynthiameng.com/">Cynthia Meng</a>. Special thanks to Mimi Lai, the Bureau of Justice Statistics, CS 171, Mike Bostock, and D3.js.
+			  	</div>
+			  	<div class="col-md-4" style="border-left: 1px solid #ddd; border-right: 1px solid #ddd; height: 100px">
+			  		<h4>Related Information</h4>
+			  		<a href="https://docs.google.com/document/d/16V6lA4QbM3BkKRmK9vnvPhiWgRwpgAxWAymV1RV-JoQ/edit?usp=sharing">Process book</a><br>
+					<a href="http://cynthiameng.com/cs171/screencast.html">Screencast</a>
+			  	</div>
+			  	<div class="col-md-4">
+			  		<h4>Data</h4>
+			  		<a href="http://www.bjs.gov/index.cfm?ty=tp&tid=13">Bureau of Justice Statistics (BJS)</a><br>
+			  		<a href="http://www.prisonstudies.org/highest-to-lowest/prison-population-total?field_region_taxonomy_tid=All">International Center for Prison Studies (ICPS)</a><br>
+			  		<a href="http://www.prisonpolicy.org/reports/rates.html">Prison Policy Initiative</a><br>
+			  	</div>
+			</div>
+		</div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+// Step 1: Load data
+var startHere = function() {
+
+	// async data load
+	queue()
+		.defer(d3.csv, "data/total_population_1925_2012.csv")
+    	.defer(d3.csv, "data/states.csv")
+    	.defer(d3.csv, "data/by_state_by_gender.csv")
+    	.defer(d3.csv, "data/by_state_by_race.csv")
+    	.defer(d3.csv, "data/total_percent_offenses.csv")
+    	.defer(d3.csv, "data/executions.csv")
+    	.defer(d3.csv, "data/international_rates.csv")
+    	.defer(d3.csv, "data/sexual_harassment_demographics.csv")
+    	.await(dataLoaded);
+}
+
+// Step 2: wrangle data
+var dataLoaded = function(error, _totalPopulation, _states, _byStateByGender, _byStateByRace, _offenses, _executions, _international, _sexualHarassment) {
+	// report loading errors
+	if (error) console.log("DATA LOAD ERROR (" + error.status + "): " + error.statusText);
+
+	// keys between state and abbrev
+	states = _states.map(function(d) {
+		return {
+			id: parseInt(d.id),
+			name: d.name,
+			abbrev: d.abbreviation,
+			region: d.census_region_name, // i.e. "South"
+			population: parse(d.population)
+		}
+	});
+
+	// fill perYear info
+	totalPopulation = _totalPopulation.map(function(d) {
+		return {
+			year: parseInt(d.year),
+			population: parseInt(d.population)
+		};
+	});
+
+	// offenses
+	var categories = ["white", "hispanic", "other", "black", "male", "female"];
+	var total_raw = _offenses[_offenses.length - 1];
+
+	offenses = [];
+	for (var key in total_raw) {
+		if (categories.indexOf(key) > -1)
+		{
+			offenses.push({
+				type: key,
+				total: parseInt(total_raw[key]),
+				values: {}
+			});
+		}
+	};
+
+	_offenses.filter(function(e) { return e.subcategory == ""; }).map(function(d) {
+		for (var key in d) {
+			if (categories.indexOf(key) > -1) {
+				var blah = offenses.filter(function(e) { return e.type == key; })[0];
+				blah.values[d.category] = (parseFloat(d[key]) / 100) * blah.total;
+			}
+		}
+	});
+
+	// executions
+	executions = _executions.slice(1,3).map(function(d) {
+		var vals = d3.keys(d).filter(function(e) { return e !== "region" && e !== "total"; }).map(function(year) {
+			return {
+				year: parseInt(year),
+				amount: d[year]
+			}
+		});
+
+		return {
+			type: $.trim(d.region),
+			values: vals
+		};
+	});
+
+	executions_by_state = _executions.slice(3).map(function(d) {
+		var vals = d3.keys(d).filter(function(e) { return e !== "region" && e !== "total"; }).map(function(year) {
+			return {
+				year: parseInt(year),
+				amount: d[year]
+			}
+		});
+
+		var abbrev = states.filter(function(e) { 
+			return e.name == $.trim(d.region); 
+		});
+
+		if (abbrev.length > 0)
+			abbrev = abbrev[0].abbrev;
+		else
+			abbrev = $.trim(d.region);
+
+		return {
+			state: abbrev,
+			values: vals
+		};
+	});
+
+	// extract the overall stats - national, federal, state
+	byStateByGender = _byStateByGender.map(function(d) {
+		return {
+			state: d["Jurisdiction"],
+			2012: { "total": parse(d["2012Total"]), "male": parse(d["2012Male"]), "female": parse(d["2012Female"]) },
+			2013: { "total": parse(d["2013Total"]), "male": parse(d["2013Male"]), "female": parse(d["2013Female"]) },
+			delta: { "total": parseFloat(d["ChangeTotal"]), "male": parseFloat(d["ChangeMale"]), "female": parseFloat(d["ChangeFemale"]) }
+		}
+	});
+
+	// split by overall stats (US, federal, state) and state statistics (the rest)
+	byStateByRace = _byStateByRace.map(function(d) {
+		return {
+			state: d.state,
+			white: parseInt(d.white),
+			hispanic: parseInt(d.hispanic),
+			black: parseInt(d.black),
+			AI: parseInt(d.AI)
+		};
+	});
+
+	// international (top 20 countries for total prisoners) statistics
+	international = _international.map(function(d) {
+		return {
+			country: d.country,					// country name
+			total: parseInt(d.total),			// total police personnel (to be divided )
+			female: parseFloat(d.female),		// female prisoners (percentage of prison population)
+			gdppc: parseInt(d.gdppc),			// gdp per capita
+			poverty: parseFloat(d.poverty),		// poverty rate
+			life: parseFloat(d.life), 			// life expectancy
+			literacy: parseFloat(d.literacy),	// literacy rate
+			population: parseInt(d.population)	// total population
+		};
+	});
+
+	// sexual harassment
+	sexual_harassment = _sexualHarassment.map(function(d) {
+		return {
+			category: d.category,
+			characteristic: d.characteristic,
+			type: d.type,
+			heterosexual: parseFloat(d.heterosexual),
+			non_heterosexual: parseFloat(d["non-heterosexual"]) 
+		}
+	});
+
+	initAllVis();
+	
+}
+
+// Step 3: initialize all visualizations
+var initAllVis = function() {
+
+	// Instantiate event handlers
+   	var mapEH = new Object(); // handle map selection
+
+	// Instantiate vis objects
+	var execution_vis = new ExecutionVis(d3.select("#executionVis"), executions);
+	var execution_map_vis = new ExecutionMapVis(d3.select("#executionMapVis"), executions_by_state);
+   	var time_vis = new TimeVis(d3.select("#timeVis"), totalPopulation);
+   	var map_vis = new MapVis(d3.select("#mapVis"), states, mapEH);
+   	var offense_vis_gender = null;
+   	var offense_vis_race = null;
+   	var breakdown_vis = new BreakdownVis(d3.select("#breakdownVis"), byStateByGender, byStateByRace, states);
+   	var international_vis = null;
+   	var sexual_harassment_vis = new SexualHarassmentVis(d3.select("#sexualHarassmentVis"), sexual_harassment);
+
+   	// Bind event handlers
+   	checkScrolls();
+
+    $(mapEH).bind("selectionChanged", function(event, data){
+        breakdown_vis.onSelectionChange(data); // e.g., state = "Alabama"
+    });
+
+    $('.map-box input').click(function() {
+    	breakdown_vis.onSelectionChange();
+    });
+
+    $("#slider").on("input", function(e) {
+    	execution_map_vis.onSelectionChange(this.value);
+    });
+
+	$("#sexualHarassmentVis .category input").on("click", function(e) {
+		sexual_harassment_vis.onSelectionChange("category", $(this).attr("data-b"));
+	});
+
+	$("#sexualHarassmentVis .type input").on("click", function(e) {
+		sexual_harassment_vis.onSelectionChange("type", $(this).attr("data-b"));
+	});
+
+	$(window).scroll(function() {
+		checkScrolls();
+	});
+
+	function checkScrolls() {
+		if (isScrolledIntoView("#executionVis") && execution_vis) {
+			execution_vis.onSelectionChange();
+		}
+		if (isScrolledIntoView("#offenseVisGender") && !offense_vis_gender) {
+			offense_vis_gender = new OffenseVis(d3.select("#offenseVisGender"), offenses.slice(0,2));
+		}
+		if (isScrolledIntoView("#offenseVisRace") && !offense_vis_race) {
+			console.log(offenses.slice(2));
+			offense_vis_race = new OffenseVis(d3.select("#offenseVisRace"), offenses.slice(2), true);
+		}
+		if (isScrolledIntoView("#internationalVis") && !international_vis) {
+			international_vis = new InternationalVis(d3.select("#internationalVis"), international);
+		}
+	}
+
+	// page tabbing
+	$(function() {
+	  $('a[href*=#]:not([href=#])').click(function() {
+	    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+	      var target = $(this.hash);
+	      console.log($(this.hash));
+	      if (target.length) {
+	        $('html,body').animate({
+	          scrollTop: target.offset().top - $('#navbar').height()
+	        }, 1000);
+	        return false;
+	      }
+	      checkScrolls();
+	    }
+	  });
+	});
+}
+
+
+
+startHere();
+
+
+
+
+// helper function for parsing integer strings with commas
+var parse = function(input) {
+	return parseInt(input.replace(/,/g,''));
+}
+
+function isScrolledIntoView(elem)
+{
+    var $elem = $(elem);
+    var $window = $(window);
+
+    var docViewTop = $window.scrollTop();
+    var docViewBottom = docViewTop + $window.height();
+
+    var elemTop = $elem.offset().top;
+    var elemBottom = elemTop + $elem.height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
+$(".cool-btns input").click(function(e) {
+    $(this).siblings().removeClass("active");
+    $(this).addClass("active")
+});
+
+</script>
+</html>

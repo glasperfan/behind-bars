@@ -1,0 +1,319 @@
+/*
+ *
+ * Main stylesheet for CS171 final project.
+ * Authors: Hugh Zabriskie, Cynthia Meng.
+ * Date: 4/14/2015.
+ *
+ */
+
+ /* FONT: Lato; */
+ @import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,400italic,700italic,900italic);
+
+
+/* 
+ *
+ * D3 ELEMENTS 
+ *
+ */
+
+.axis text { font: 10px sans-serif; }
+.axis line,
+.axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.area { stroke-width: 0; fill: rgb(211, 94, 96); }
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+  width: 100%;
+  height: 100vh;
+}
+
+.focus circle {
+  fill: steelblue;
+  stroke: #555;
+  stroke-width: 1;
+}
+
+.focus text { font: 11px sans-serif; }
+
+.map {
+	height: 350px;
+  position: relative;
+  padding:10px;
+}
+
+.hoverinfo {
+	text-align: center;
+  color:black;
+}
+
+.arc text {
+  fill: white;
+  font: 12px sans-serif;
+}
+
+.type path { 
+    stroke-width: 4;
+    fill: none;
+}
+
+#breakdownVis { position: absolute; margin-top: : 40px; }
+#breakdownVis text { fill: white; }
+
+path.slice{
+  stroke-width:2px;
+}
+
+polyline {
+  opacity: .3;
+  stroke: black;
+  stroke-width: 2px;
+  fill: none;
+}
+
+::selection {
+  background: #ffb7b7; /* WebKit/Blink Browsers */
+}
+
+
+
+
+
+
+/* 
+ *
+ * DESIGN ELEMENTS 
+ *
+ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Hind', sans-serif;
+  color: black;
+}
+
+p { 
+  font-weight: 300 !important; 
+  line-height: 25px;
+}
+
+a, h1 a, h2 a, h3 a, h4 a { text-decoration: none; color: #3B8FD7; }
+a:hover, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover { text-decoration: none; color: #53AFFF; }
+
+.highlighted { color: #3B8FD7; }
+
+.screen {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  background: url(../img/grey.jpg) no-repeat center center;
+}
+
+.container {
+  width:100%;
+  overflow:none;
+  height:100%;
+}
+
+.box { 
+  position: absolute;
+  background-color: rgba(0,0,0,0.7);
+  color: #eee;
+  padding: 4px 10px 4px 19px;
+  width: 500px;
+}
+
+/* NAVBAR */
+#navbar { font-family: 'Hind', sans-serif; } 
+#navbar.navbar-default { background-color: #000; }
+#navbar a { color: #ccc; }
+#navbar a:hover { color: #D70202; text-decoration: none; }
+#navbar .navbar-header { margin: 10px 0 0 25px; }
+#navbar .navbar-header a { color: white; font-weight: 100; font-size: 24px; }
+#navbar .navbar-header a:hover { color: #D70202;}
+#navbar .navbar-header a:focus { text-decoration: none; }
+#navbar .nav { margin: 0 0 0 25px; }
+
+
+
+/* HOME SCREEN */ 
+#home {
+  background: url(../img/prison-1.jpg) no-repeat center center fixed; /* https://flic.kr/p/kaaoyN */
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
+
+.title-box { margin: 150px 0 0 60px; color: white; width: auto; }
+.title-box h1 { color: white; font-weight: 300; font-size: 42px;}
+.title-box h3 { font-weight: 100; font-size: 24px; }
+
+.time-box {  margin: 8% 0 0 500px; width: 700px; }
+.time-box text, .time-box line { fill: white; }
+
+
+/* INTRO SCREEN */
+#intro { background: url(../img/behind-bars.jpg) no-repeat center center; }
+#intro > .overlay {
+  background-color: rgba(49,7,7,0.4);
+  position: absolute;
+}
+
+#intro > .description {
+  position: absolute;
+  width: 600px;
+  color: white;
+  margin: 10% auto 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+
+/* BREAKDOWN SCREEN */ 
+.left { width: 55%; float:left; }
+.right { width: 45%; float:right; }
+.centered { 
+  margin: 20px auto;
+  padding:10px;
+  position:relative !important;
+  width:75% !important; 
+  text-align: center;
+}
+
+.wrapper { position: relative; }
+
+.map-box { margin-top: 45px; margin-right: 10px; height: 570px; }
+.map-box .wrapper { height: 75px; }
+#mapVis { margin-top:15%; }
+
+.cool-btns input {
+    background-color: rgba(0,0,0,0.0);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 6px 18px;
+    font-weight: bold;
+}
+
+.cool-btns input.active { color: #3B8FD7; border-color: #3B8FD7; }
+.cool-btns input:focus { outline: 0; }
+
+#state, .map-box .wrapper { display: none; }
+
+.breakdown { font-size: 13px; }
+.breakdown td { padding: 3px 15px 3px 0; }
+.breakdown.left, .breakdown.right { width: 50%; }
+
+
+/* EXECUTIONS SCREEN */
+#executions {
+  background: url(../img/prison-2.jpg) no-repeat center center; /* https://flic.kr/p/eby1ir */
+}
+
+.exec-description { margin-top: 70px; }
+.exec-vis { margin-top: 100px; height: 500px; }
+.exec-line { width: 600px; margin-top: 280px; }
+.exec-line svg { margin-top: 15px; }
+.exec-line .axis path { stroke: white; }
+.exec-line text { fill: white; }
+
+input[type=range]{
+    -webkit-appearance: none;
+    height: 3px;
+    background: #7B7A7A;
+    border-radius: 5px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: #3B8FD7;
+    margin-top: -2px;
+}
+
+input[type=range]:focus { outline: 0; }
+
+#header {
+  font-size:24px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+
+
+/* OFFENSES SCREEN */
+#offenses {
+  background: url(../img/drugs.jpg) no-repeat center center; /* https://flic.kr/p/4jWMNw */
+}
+
+.offenses-box {
+  width: 800px;
+  text-align: left;
+}
+
+#offenses .axis path { stroke: white; }
+#offenses text { fill: white; }
+#offenses .overlay { position: absolute; background-color: rgba(0,0,0,0.6); }
+
+#offensesContainer {
+  width: 100%;
+  text-align: center;
+}
+
+#offenseVisGender,
+#offenseVisRace {
+  position: relative;
+  display: inline;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+
+/* SEXUAL HARASSMENTS SCREEN */
+#harassments {background: url(../img/jail-cell.jpg) no-repeat center center;}
+#harassments .axis path { stroke: white; }
+#harassments text { fill: white; }
+#harassments .overlay { background-color: rgba(0,0,0,0.5); position: absolute; }
+
+#sexualHarassmentVis { color: white; }
+.sexual-harassment-box { text-align: left; }
+.hetero { fill: #CE0000 !important; font-weight: bold; letter-spacing: 1px; }
+.nonhetero { fill: #00BFFF !important; font-weight: bold; letter-spacing: 1px; }
+
+
+
+/* INTERNATION SCREEN */
+#international {
+  background: url(../img/police.jpg) no-repeat center center; /* https://flic.kr/p/oKfmuW */
+}
+#international .overlay { background-color: rgba(24,6,6,0.6); position: absolute; }
+#international .axis path { stroke: white; }
+#international text { fill: white; font-size:12px; }
+#international .left .box { margin-top: 30px; width: 30%; }
+#international .right .box { margin-top: 80px; width: 56%; margin-left: 20px; }
+#international .left { width: 30%; }
+#international .right {width: 60%; }
+
+
+/* CREDITS SCREEN */
+#credits { height: 240px; background-color: #333; }
+#credits-box { height: 240px; width: 100% !important; margin: 0; position: relative; }
+#credits-box .col-md-4 { height: 150px; }
+.small { font-size:12px; }

@@ -1,0 +1,29 @@
+category,characteristic,type,heterosexual,,non-heterosexual
+Sex,Male,Inmate-on-inmate,1,%,11.9
+Sex,Female,Inmate-on-inmate,3.6,,9.4
+Race,White,Inmate-on-inmate,1.7,%,11.4
+Race,Black,Inmate-on-inmate,0.6,,10.6
+Race,Hispanic,Inmate-on-inmate,1,,10.1
+Age,18 to 24,Inmate-on-inmate,1.3,%,11.6
+Age,25 to 44,Inmate-on-inmate,1.2,,11.9
+Age,45 or older,Inmate-on-inmate,0.9,,8.9
+Education,Less than high school,Inmate-on-inmate,1,%,11
+Education,High school graduate,Inmate-on-inmate,1.1,,9
+Education,Some college or more,Inmate-on-inmate,1.7,,12.6
+Mental Health Status,No mental illness,Inmate-on-inmate,0.4,%,5.7
+Mental Health Status,Anxiety-mood disorder,Inmate-on-inmate,1.3,,10.7
+Mental Health Status,Serious psychological distress,Inmate-on-inmate,3.3,,18.6
+Sex,Male,Staff sexual misconduct,2,%,6.1
+Sex,Female,Staff sexual misconduct,1.4,,3
+Race,White,Staff sexual misconduct,1.3,%,3.2
+Race,Black,Staff sexual misconduct,2.2,,6.2
+Race,Hispanic,Staff sexual misconduct,1.8,,5.9
+Age,18 to 24,Staff sexual misconduct,2.5,%,6.7
+Age,25 to 44,Staff sexual misconduct,2.2,,5
+Age,45 or older,Staff sexual misconduct,1.1,,4.2
+Education,Less than high school,Staff sexual misconduct,2,%,5.1
+Education,High school graduate,Staff sexual misconduct,2,,4.9
+Education,Some college or more,Staff sexual misconduct,1.8,,4.8
+Mental Health Status,No mental illness,Staff sexual misconduct,1,%,3.2
+Mental Health Status,Anxiety-mood disorder,Staff sexual misconduct,2.3,,3.2
+Mental Health Status,Serious psychological distress,Staff sexual misconduct,4.1,,8.8
